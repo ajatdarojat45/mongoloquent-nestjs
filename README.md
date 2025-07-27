@@ -1,4 +1,6 @@
 <p align="center">
+    <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+    <br />
     <img src="./assets/logo.jpeg"/>
 </p>
 
@@ -39,4 +41,4 @@ Mongoloquent is an MIT-licensed open source project. It can grow thanks to the s
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+Mongoloquent is [MIT licensed](LICENSE).

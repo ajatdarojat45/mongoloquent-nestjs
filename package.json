@@ -1,0 +1,74 @@
+{
+  "name": "@mongoloquent/nestjs",
+  "version": "0.1.0",
+  "description": "Mongoloquent is a lightweight MongoDB ORM library for Javascript/Typescript (@nestjs)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "release": "standard-version",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,ts,json,md}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "keywords": [
+    "javascript",
+    "typescript",
+    "database",
+    "mongodb",
+    "orm",
+    "mongoloquent",
+    "nodejs",
+    "nestjs",
+    "nest"
+  ],
+  "author": {
+    "name": "Ajat Darojat",
+    "email": "ajatdarojat45@gmail.com",
+    "url": "https://ajatdarojat45.id"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@nestjs/common": "^11.1.5",
+    "@nestjs/core": "^11.1.5",
+    "mongoloquent": "^3.5.4",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "eslint": "^9.32.0",
+    "husky": "^9.1.7",
+    "jest": "^30.0.5",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.6.2",
+    "standard-version": "^9.5.0",
+    "ts-jest": "^29.4.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajatdarojat45/mongoloquent-nestjs.git"
+  },
+  "funding": {
+    "type": "GitHub",
+    "url": "https://github.com/sponsors/ajatdarojat45"
+  },
+  "bugs": {
+    "url": "https://github.com/ajatdarojat45/mongoloquent-nestjs/issues",
+    "email": "ajatdarojat45@gmail.com"
+  },
+  "homepage": "https://mongoloquent.com/integrations/nestjs"
+}

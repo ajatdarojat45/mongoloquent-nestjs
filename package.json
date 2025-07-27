@@ -24,6 +24,7 @@
     "typescript",
     "database",
     "mongodb",
+    "nosql",
     "orm",
     "mongoloquent",
     "nodejs",

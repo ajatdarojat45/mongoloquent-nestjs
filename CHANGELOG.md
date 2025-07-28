@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/ajatdarojat45/mongoloquent-nestjs/compare/v0.1.1...v0.1.2) (2025-07-28)
+
+### Features
+
+- add DB provider in forRoot and forRootAsync ([4a24c81](https://github.com/ajatdarojat45/mongoloquent-nestjs/commit/4a24c81cdd3cb3ab2e7f625317af7ae07e9db25c))
+- add getMongoloquentDBToken function and add & update constants ([e0e0d0e](https://github.com/ajatdarojat45/mongoloquent-nestjs/commit/e0e0d0eeb471d960b39daf4cc3a1e44492f49317))
+- add InjectDB decorator ([52fead5](https://github.com/ajatdarojat45/mongoloquent-nestjs/commit/52fead5431aa3796abe737a71421b0f9d0e0ee79))
+- create MongoloquentError class ([9127279](https://github.com/ajatdarojat45/mongoloquent-nestjs/commit/91272797dddf30c68bda9e4b7675fc997df4f002))
+
 ### 0.1.0 (2025-07-27)
 
 ### Features

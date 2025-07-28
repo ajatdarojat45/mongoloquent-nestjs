@@ -45,6 +45,7 @@ Mongoloquent is an MIT-licensed open source project. It can grow thanks to the s
     <a href="https://ideacamp.id" target="_blank">
     <img height="50px" src="./assets/ideacamp.png"/>
     </a>
+
 </p>
 
 ## Stay in touch

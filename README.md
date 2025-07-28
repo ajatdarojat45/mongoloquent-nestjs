@@ -23,7 +23,7 @@
 ## Installation
 
 ```bash
-$ npm i --save @mongoloquent/nestjs mongoloquent
+$ npm i --save @mongoloquent/nestjs mongoloquent mongodb
 ```
 
 ## Quick Start

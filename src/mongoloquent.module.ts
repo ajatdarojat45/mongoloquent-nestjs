@@ -4,18 +4,19 @@ import {
   IMongoloquentModuleAsyncOptions,
   IMongoloquentModuleOptions,
 } from "./interfaces";
-import { getMongoloquentToken } from "./common";
+import { getMongoloquentModuleToken } from "./common";
+import MongoloquentError from "./common/mongoloquent.error";
 
 @Module({})
 export class MongoloquentModule {
   static forRoot(options: IMongoloquentModuleOptions): DynamicModule {
     const configProvider = {
-      provide: getMongoloquentToken(options.connectionName),
+      provide: getMongoloquentModuleToken(options.name),
       useValue: options,
     };
 
     const modelProviders = (options.models || []).map((model) => {
-      (model as any)["$connection"] = options.connectionUri;
+      (model as any)["$connection"] = options.connection;
       (model as any)["$databaseName"] = options.database;
       if (options.timezone) (model as any)["$timezone"] = options.timezone;
 
@@ -34,14 +35,16 @@ export class MongoloquentModule {
   }
 
   static forRootAsync(options: IMongoloquentModuleAsyncOptions): DynamicModule {
+    if (!options.useFactory) throw new MongoloquentError("useFactory is required")
+
     const asyncProvider: Provider = {
-      provide: getMongoloquentToken(options.connectionName),
+      provide: getMongoloquentModuleToken(options.name),
       useFactory: async (...deps: any[]) => {
         const opts = await options.useFactory!(...deps);
         const models = options.models || [];
 
         for (const model of models) {
-          (model as any)["$connection"] = opts.connectionUri;
+          (model as any)["$connection"] = opts.connection;
           (model as any)["$databaseName"] = opts.database;
           if (opts.timezone) (model as any)["$timezone"] = opts.timezone;
         }
@@ -67,13 +70,13 @@ export class MongoloquentModule {
     };
   }
 
-  static forFeature(models: IMongoloquentModelClass[], connectionName: string = "default") {
+  static forFeature(models: IMongoloquentModelClass[], moduleName: string = "default") {
     const featureProviders: Provider[] = models.map((model) => {
       return {
-        inject: [getMongoloquentToken(connectionName)],
+        inject: [getMongoloquentModuleToken(moduleName)],
         provide: model,
         useFactory: (config: IMongoloquentModuleOptions) => {
-          (model as any)["$connection"] = config.connectionUri;
+          (model as any)["$connection"] = config.connection;
           (model as any)["$databaseName"] = config.database;
           (model as any)["$timezone"] = config.timezone;
 

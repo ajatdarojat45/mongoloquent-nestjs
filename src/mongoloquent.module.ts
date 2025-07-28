@@ -4,15 +4,25 @@ import {
   IMongoloquentModuleAsyncOptions,
   IMongoloquentModuleOptions,
 } from "./interfaces";
-import { getMongoloquentModuleToken } from "./common";
+import { getDynamicDB, getMongoloquentDBToken, getMongoloquentModuleToken } from "./common";
 import MongoloquentError from "./common/mongoloquent.error";
 
 @Module({})
 export class MongoloquentModule {
   static forRoot(options: IMongoloquentModuleOptions): DynamicModule {
-    const configProvider = {
+    const configProvider: Provider = {
       provide: getMongoloquentModuleToken(options.name),
       useValue: options,
+    };
+
+    const dynamicDB = getDynamicDB();
+    dynamicDB.setConnection(options.connection);
+    dynamicDB.setDatabaseName(options.database);
+    if (options.timezone) dynamicDB.setTimezone(options.timezone);
+
+    const dbProvider: Provider = {
+      provide: getMongoloquentDBToken(options.name),
+      useValue: dynamicDB,
     };
 
     const modelProviders = (options.models || []).map((model) => {
@@ -29,16 +39,19 @@ export class MongoloquentModule {
     return {
       module: MongoloquentModule,
       global: options.global || false,
-      providers: [configProvider, ...modelProviders],
-      exports: [configProvider, ...modelProviders],
+      providers: [configProvider, dbProvider, ...modelProviders],
+      exports: [configProvider, dbProvider, ...modelProviders],
     };
   }
 
   static forRootAsync(options: IMongoloquentModuleAsyncOptions): DynamicModule {
-    if (!options.useFactory) throw new MongoloquentError("useFactory is required")
+    if (!options.useFactory) throw new MongoloquentError("useFactory is required");
+
+    const configToken = getMongoloquentModuleToken(options.name);
+    const dbToken = getMongoloquentDBToken(options.name);
 
     const asyncProvider: Provider = {
-      provide: getMongoloquentModuleToken(options.name),
+      provide: configToken,
       useFactory: async (...deps: any[]) => {
         const opts = await options.useFactory!(...deps);
         const models = options.models || [];
@@ -57,6 +70,18 @@ export class MongoloquentModule {
       inject: options.inject || [],
     };
 
+    const dbProvider: Provider = {
+      provide: dbToken,
+      inject: [configToken],
+      useFactory: (opts: IMongoloquentModuleOptions) => {
+        const dynamicDB = getDynamicDB();
+        dynamicDB.setConnection(opts.connection);
+        dynamicDB.setDatabaseName(opts.database);
+        if (opts.timezone) dynamicDB.setTimezone(opts.timezone);
+        return dynamicDB;
+      },
+    };
+
     const modelProviders: Provider[] = (options.models || []).map((model) => {
       return { provide: model, useValue: model };
     });
@@ -65,8 +90,8 @@ export class MongoloquentModule {
       module: MongoloquentModule,
       imports: options.imports || [],
       global: options.global || false,
-      providers: [asyncProvider, ...modelProviders],
-      exports: [asyncProvider, ...modelProviders],
+      providers: [asyncProvider, dbProvider, ...modelProviders],
+      exports: [asyncProvider, dbProvider, ...modelProviders],
     };
   }
 

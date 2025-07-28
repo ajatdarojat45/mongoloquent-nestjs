@@ -7,6 +7,13 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build",
@@ -37,14 +44,9 @@
     "url": "https://ajatdarojat45.id"
   },
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "@nestjs/common": "^11.1.5",
     "@nestjs/core": "^11.1.5",
-    "mongoloquent": "^3.5.4",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2"
-  },
-  "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^24.1.0",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
@@ -53,11 +55,21 @@
     "husky": "^9.1.7",
     "jest": "^30.0.5",
     "lint-staged": "^16.1.2",
+    "mongoloquent": "^3.5.4",
     "prettier": "^3.6.2",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
     "standard-version": "^9.5.0",
     "ts-jest": "^29.4.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^11.1.5",
+    "@nestjs/core": "^11.1.5",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "mongoloquent": "^3.5.4"
   },
   "repository": {
     "type": "git",

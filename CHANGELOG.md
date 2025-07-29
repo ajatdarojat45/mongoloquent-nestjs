@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.0.0](https://github.com/ajatdarojat45/mongoloquent-nestjs/compare/v0.1.2...v1.0.0) (2025-07-29)
 
+### ✨ Added
+
+- `forRoot()` for basic synchronous module registration
+- `forRootAsync()` for asynchronous configuration support
+- `forFeature()` for registering models in feature modules
+- `@InjectModel()` decorator for injecting Mongoloquent models
+- `@InjectDB()` decorator for injecting Mongoloquent DB instance
+
+### 🔗 Features
+
+- Query builder support from `Mongoloquent`
+- Relationship support with `.with()` eager loading
+- Support for **multiple MongoDB connections**
+- **Full MongoDB transaction support**
+
+### 🧱 Notes
+
+This is the **first stable release** of `@mongoloquent/nestjs`.
+It provides seamless integration between Mongoloquent ORM and NestJS.
+
 ### [0.1.2](https://github.com/ajatdarojat45/mongoloquent-nestjs/compare/v0.1.1...v0.1.2) (2025-07-28)
 
 ### Features

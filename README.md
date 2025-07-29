@@ -23,7 +23,7 @@
 ## Installation
 
 ```bash
-$ npm i --save @mongoloquent/nestjs mongoloquent
+$ npm i --save @mongoloquent/nestjs mongoloquent mongodb
 ```
 
 ## Quick Start
@@ -33,6 +33,20 @@ $ npm i --save @mongoloquent/nestjs mongoloquent
 ## Support
 
 Mongoloquent is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://mongoloquent.com/docs/support).
+
+### Sponsors
+
+### Partners
+
+<p align="center">
+    <a href="https://youtube.com/@digicodeacademy" target="_blank">
+    <img height="50px" src="./assets/digicode.png"/>
+    </a>
+    <a href="https://ideacamp.id" target="_blank">
+    <img height="50px" src="./assets/ideacamp.png"/>
+    </a>
+
+</p>
 
 ## Stay in touch
 

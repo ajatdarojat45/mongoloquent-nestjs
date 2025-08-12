@@ -1,7 +1,14 @@
 import { ModuleMetadata } from "@nestjs/common";
-import { Model } from "mongoloquent";
+import { ClientSession } from "mongodb";
+import { Model as ModelCore, DB as DBCore } from "mongoloquent";
 
-export type IMongoloquentModelClass<T = any> = new (...args: any[]) => Model<T>;
+export type IMongoloquentModelClass<T = any> = new (...args: any[]) => ModelCore<T>;
+
+export type Model = typeof ModelCore;
+
+export type DB = typeof DBCore & {
+  getSession(): ClientSession;
+};
 
 export interface IMongoloquentModuleOptions {
   name?: string;

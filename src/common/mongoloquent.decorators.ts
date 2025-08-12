@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext, Inject, SetMetadata } from "@nestjs/common";
-import { IMongoloquentModelClass } from "../interfaces";
+import { IMongoloquentModelClass } from "../types";
 import { getMongoloquentDBToken, MONGOLOQUENT_TRANSACTIONAL } from "./mongoloquent.utils";
 
 export const InjectModel = (model: IMongoloquentModelClass) => Inject(model);

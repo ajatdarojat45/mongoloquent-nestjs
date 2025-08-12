@@ -1,3 +1,3 @@
 export * from "./mongoloquent.module";
-export * from "./interfaces";
+export * from "./types";
 export * from "./common";

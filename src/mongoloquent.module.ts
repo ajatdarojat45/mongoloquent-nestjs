@@ -3,12 +3,16 @@ import {
   IMongoloquentModelClass,
   IMongoloquentModuleAsyncOptions,
   IMongoloquentModuleOptions,
-} from "./interfaces";
+} from "./types";
 import { getDynamicDB, getMongoloquentDBToken, getMongoloquentModuleToken } from "./common";
-import MongoloquentError from "./common/mongoloquent.error";
+import { MongoloquentException } from "mongoloquent";
+import { APP_INTERCEPTOR, Reflector } from "@nestjs/core";
+import { TransactionalInterceptor } from "./interceptors";
 
 @Module({})
 export class MongoloquentModule {
+  static isTransactionInterceptorRegistered = false;
+
   static forRoot(options: IMongoloquentModuleOptions): DynamicModule {
     const configProvider: Provider = {
       provide: getMongoloquentModuleToken(options.name),
@@ -36,16 +40,23 @@ export class MongoloquentModule {
       };
     });
 
+    const providers: Provider[] = [configProvider, dbProvider, ...modelProviders];
+    if (!this.isTransactionInterceptorRegistered) {
+      providers.push(Reflector);
+      providers.push({ provide: APP_INTERCEPTOR, useClass: TransactionalInterceptor });
+      this.isTransactionInterceptorRegistered = true;
+    }
+
     return {
       module: MongoloquentModule,
       global: options.global || false,
-      providers: [configProvider, dbProvider, ...modelProviders],
+      providers,
       exports: [configProvider, dbProvider, ...modelProviders],
     };
   }
 
   static forRootAsync(options: IMongoloquentModuleAsyncOptions): DynamicModule {
-    if (!options.useFactory) throw new MongoloquentError("useFactory is required");
+    if (!options.useFactory) throw new MongoloquentException("useFactory is required");
 
     const configToken = getMongoloquentModuleToken(options.name);
     const dbToken = getMongoloquentDBToken(options.name);
@@ -86,19 +97,26 @@ export class MongoloquentModule {
       return { provide: model, useValue: model };
     });
 
+    const providers: Provider[] = [asyncProvider, dbProvider, ...modelProviders];
+    if (!this.isTransactionInterceptorRegistered) {
+      providers.push(Reflector);
+      providers.push({ provide: APP_INTERCEPTOR, useClass: TransactionalInterceptor });
+      this.isTransactionInterceptorRegistered = true;
+    }
+
     return {
       module: MongoloquentModule,
       imports: options.imports || [],
       global: options.global || false,
-      providers: [asyncProvider, dbProvider, ...modelProviders],
+      providers,
       exports: [asyncProvider, dbProvider, ...modelProviders],
     };
   }
 
-  static forFeature(models: IMongoloquentModelClass[], moduleName: string = "default") {
+  static forFeature(models: IMongoloquentModelClass[], connectionName: string = "default") {
     const featureProviders: Provider[] = models.map((model) => {
       return {
-        inject: [getMongoloquentModuleToken(moduleName)],
+        inject: [getMongoloquentModuleToken(connectionName)],
         provide: model,
         useFactory: (config: IMongoloquentModuleOptions) => {
           (model as any)["$connection"] = config.connection;

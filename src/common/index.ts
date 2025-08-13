@@ -1,3 +1,1 @@
-export * from "./mongoloquent.decorators";
 export * from "./mongoloquent.utils";
-export * from "./mongoloquent.error"

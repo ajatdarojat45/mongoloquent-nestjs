@@ -1,1 +1,2 @@
-export * from "./mongoloquent-options.type";
+export * from "./mongoloquent.constants";
+export * from "./mongoloquent.types";

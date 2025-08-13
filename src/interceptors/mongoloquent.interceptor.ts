@@ -7,7 +7,7 @@ import { AsyncContextService } from "../services";
 import { getMongoloquentDBToken } from "../common";
 
 @Injectable()
-export class TransactionInterceptor implements NestInterceptor {
+export class TransactionalInterceptor implements NestInterceptor {
   constructor(
     private readonly reflector: Reflector,
     private readonly moduleRef: ModuleRef,

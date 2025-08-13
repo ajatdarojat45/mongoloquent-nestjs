@@ -7,7 +7,7 @@ import {
 import { getDynamicDB, getMongoloquentDBToken, getMongoloquentModuleToken } from "./common";
 import { MongoloquentException } from "mongoloquent";
 import { APP_INTERCEPTOR, Reflector } from "@nestjs/core";
-import { TransactionInterceptor } from "./interceptors";
+import { TransactionalInterceptor } from "./interceptors";
 
 @Module({})
 export class MongoloquentModule {
@@ -43,7 +43,7 @@ export class MongoloquentModule {
     const providers: Provider[] = [configProvider, dbProvider, ...modelProviders];
     if (!this.isTransactionInterceptorRegistered) {
       providers.push(Reflector);
-      providers.push({ provide: APP_INTERCEPTOR, useClass: TransactionInterceptor });
+      providers.push({ provide: APP_INTERCEPTOR, useClass: TransactionalInterceptor });
       this.isTransactionInterceptorRegistered = true;
     }
 
@@ -100,7 +100,7 @@ export class MongoloquentModule {
     const providers: Provider[] = [asyncProvider, dbProvider, ...modelProviders];
     if (!this.isTransactionInterceptorRegistered) {
       providers.push(Reflector);
-      providers.push({ provide: APP_INTERCEPTOR, useClass: TransactionInterceptor });
+      providers.push({ provide: APP_INTERCEPTOR, useClass: TransactionalInterceptor });
       this.isTransactionInterceptorRegistered = true;
     }
 

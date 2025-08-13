@@ -1,1 +1,1 @@
-export * from "./mongoloquent.interceptor";
+export * from "./transactional.interceptor";

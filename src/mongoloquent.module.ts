@@ -4,14 +4,10 @@ import {
   IMongoloquentModuleAsyncOptions,
   IMongoloquentModuleOptions,
 } from "./types";
-import {
-  getDynamicDB,
-  getMongoloquentDBToken,
-  getMongoloquentModuleToken,
-  TransactionInterceptor,
-} from "./common";
+import { getDynamicDB, getMongoloquentDBToken, getMongoloquentModuleToken } from "./common";
 import { MongoloquentException } from "mongoloquent";
 import { APP_INTERCEPTOR, Reflector } from "@nestjs/core";
+import { TransactionInterceptor } from "./interceptors";
 
 @Module({})
 export class MongoloquentModule {

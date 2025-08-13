@@ -113,10 +113,10 @@ export class MongoloquentModule {
     };
   }
 
-  static forFeature(models: IMongoloquentModelClass[], moduleName: string = "default") {
+  static forFeature(models: IMongoloquentModelClass[], connectionName: string = "default") {
     const featureProviders: Provider[] = models.map((model) => {
       return {
-        inject: [getMongoloquentModuleToken(moduleName)],
+        inject: [getMongoloquentModuleToken(connectionName)],
         provide: model,
         useFactory: (config: IMongoloquentModuleOptions) => {
           (model as any)["$connection"] = config.connection;

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/ajatdarojat45/mongoloquent-nestjs/compare/v1.1.0...v1.2.0) (2025-08-15)
+
+### Features
+
+- add MONGOLOQUENT_TRANSACTIONAL_RETRIES constant for transaction retries ([db180be](https://github.com/ajatdarojat45/mongoloquent-nestjs/commit/db180be42fcc43a799bafebf4d6193a1af6a1943))
+- add retries parameter to Transactional decorator for enhanced transaction handling ([5f8c4e7](https://github.com/ajatdarojat45/mongoloquent-nestjs/commit/5f8c4e75f0b9c99eef1629ae6a2ff2ed12c7689d))
+- include transactionalRetries in TransactionalInterceptor for configurable transaction retries ([7479f15](https://github.com/ajatdarojat45/mongoloquent-nestjs/commit/7479f15b0cdba525fbfe6d39fdd0dfb4c4b2eee9))
+
 ## [1.1.0](https://github.com/ajatdarojat45/mongoloquent-nestjs/compare/v1.0.0...v1.1.0) (2025-08-13)
 
 ### Features

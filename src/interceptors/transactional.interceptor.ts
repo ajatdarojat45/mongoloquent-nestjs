@@ -2,7 +2,11 @@ import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from "@nes
 import { ModuleRef, Reflector } from "@nestjs/core";
 import { from, Observable } from "rxjs";
 import { DB } from "mongoloquent";
-import { MONGOLOQUENT_TRANSACTIONAL, MONGOLOQUENT_TRANSACTIONAL_NAME } from "../types";
+import {
+  MONGOLOQUENT_TRANSACTIONAL,
+  MONGOLOQUENT_TRANSACTIONAL_NAME,
+  MONGOLOQUENT_TRANSACTIONAL_RETRIES,
+} from "../types";
 import { AsyncContextService } from "../services";
 import { getMongoloquentDBToken } from "../common";
 
@@ -28,6 +32,11 @@ export class TransactionalInterceptor implements NestInterceptor {
       [context.getHandler(), context.getClass()],
     );
 
+    const transactionalRetries = this.reflector.getAllAndOverride<number>(
+      MONGOLOQUENT_TRANSACTIONAL_RETRIES,
+      [context.getHandler(), context.getClass()],
+    );
+
     const db = this.moduleRef.get<DB>(getMongoloquentDBToken(transactionalName), {
       strict: false,
     });
@@ -35,14 +44,19 @@ export class TransactionalInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
 
     return from(
-      db.transaction(async (session) => {
-        request.mongoloquentSession = session;
-        return AsyncContextService.run({ session }, async () => {
+      db.transaction(
+        async (session) => {
           request.mongoloquentSession = session;
+          return AsyncContextService.run({ session }, async () => {
+            request.mongoloquentSession = session;
 
-          return await next.handle().toPromise();
-        });
-      }),
+            return await next.handle().toPromise();
+          });
+        },
+        {
+          retries: transactionalRetries || 1,
+        },
+      ),
     );
   }
 }
